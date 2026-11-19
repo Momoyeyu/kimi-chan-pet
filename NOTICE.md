@@ -4,6 +4,8 @@
 
 “Kimi 娘 · Q 版”是社区同人桌宠，不是 Moonshot AI／月之暗面的官方角色、官方素材或官方背书。Kimi、Moonshot AI 及相关商标归各自权利人所有。
 
+`assets/petfetch.svg` 中的 Unicode 小蓝球文字画仅参考 Kimi Work 内置小蓝球的圆形与竖眼特征，是由文字符号构成的非官方彩蛋，不是官方图像素材。
+
 ## 原作者与原始出处
 
 角色形象与原始美术设计：**ZipZipPipe**。
