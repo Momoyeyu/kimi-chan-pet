@@ -35,7 +35,35 @@ SNIPPET = """    function playFluteOnClick(event) {
       restartAnimationSchedule();
     }
 
-    stage.addEventListener(CLICK_MESSAGE_TYPE, playFluteOnClick);"""
+    stage.addEventListener(CLICK_MESSAGE_TYPE, playFluteOnClick);
+
+    // Fallback for Kimi Work hosts that forward real DOM pointer events into
+    // the pet iframe instead of posting daimon-pet:click messages: drive the
+    // same action from DOM clicks (>=6px movement is a host-handled drag).
+    let fluteDomDownPos = null;
+    document.addEventListener('pointerdown', (event) => {
+      fluteDomDownPos = { x: event.clientX, y: event.clientY };
+    }, true);
+    document.addEventListener('click', (event) => {
+      if (!manifest || isThreeManifest(manifest) || !manifest.states.flute_playing) return;
+      if (reducedMotion.matches || event.button !== 0 || stateName === 'flute_playing') return;
+      const moved = fluteDomDownPos
+        ? Math.hypot(event.clientX - fluteDomDownPos.x, event.clientY - fluteDomDownPos.y)
+        : 0;
+      if (moved >= 6) return;
+      if (event.target !== stage && event.target !== pet && event.target !== document.body) return;
+      const petBounds = pet.getBoundingClientRect();
+      if (
+        event.clientX < petBounds.left ||
+        event.clientX > petBounds.right ||
+        event.clientY < petBounds.top ||
+        event.clientY > petBounds.bottom
+      ) return;
+      clearIdleVariantTimer();
+      interactionStateActive = true;
+      setState('flute_playing');
+      restartAnimationSchedule();
+    }, true);"""
 
 
 def find_installed_runtime(widgets_root: Path) -> tuple[Path, dict]:
