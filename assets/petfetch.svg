@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="500" viewBox="0 0 1100 500" role="img" aria-labelledby="title desc">
+  <title id="title">petfetch — Kimi 娘桌宠信息</title>
+  <desc id="desc">终端风格的桌宠信息卡片，包含版本、动作、帧数、许可和互动方式</desc>
+  <rect x="10" y="10" width="1080" height="480" rx="28" fill="#262238" stroke="#6c5c91" stroke-width="2"/>
+  <rect x="10" y="10" width="1080" height="58" rx="28" fill="#342d4a"/>
+  <circle cx="48" cy="39" r="8" fill="#ff8fa8"/>
+  <circle cx="76" cy="39" r="8" fill="#f5cf74"/>
+  <circle cx="104" cy="39" r="8" fill="#91d9ae"/>
+  <text x="550" y="47" text-anchor="middle" fill="#c9bce2" font-size="20" font-family="ui-monospace,SFMono-Regular,Menlo,monospace">~/little-moon-pet</text>
+  <text x="46" y="112" fill="#b8a2e3" font-size="25" font-family="ui-monospace,SFMono-Regular,Menlo,monospace">kimi@desktop:~$ petfetch</text>
+  <g font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="25">
+    <text x="58" y="174" fill="#8fa9e8">       .  ✦  .</text>
+    <text x="58" y="211" fill="#c4b0ec">      .-&quot;&quot;&quot;-.</text>
+    <text x="58" y="248" fill="#c4b0ec">     /  _  _  \</text>
+    <text x="58" y="285" fill="#f0d4e5">    |  (•)(•)  |</text>
+    <text x="58" y="322" fill="#f0d4e5">     \   ‿‿   /</text>
+    <text x="58" y="359" fill="#b8a2e3">      ~~~ K ~~~</text>
+    <text x="58" y="396" fill="#8fa9e8">   tiny moon friend</text>
+  </g>
+  <g font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="25">
+    <text x="455" y="174" fill="#b8a2e3">name       <tspan fill="#f3ecff">Kimi 娘 · Q 版</tspan></text>
+    <text x="455" y="216" fill="#b8a2e3">version    <tspan fill="#f3ecff">1.0.0</tspan></text>
+    <text x="455" y="258" fill="#b8a2e3">actions    <tspan fill="#f3ecff">9 (8 standard + flute)</tspan></text>
+    <text x="455" y="300" fill="#b8a2e3">frames     <tspan fill="#f3ecff">68 · 256 × 288 px</tspan></text>
+    <text x="455" y="342" fill="#b8a2e3">art        <tspan fill="#f3ecff">CC BY-NC 4.0</tspan></text>
+    <text x="455" y="384" fill="#b8a2e3">code       <tspan fill="#f3ecff">MIT</tspan></text>
+    <text x="455" y="426" fill="#b8a2e3">click      <tspan fill="#f3ecff">flute time ♪</tspan></text>
+  </g>
+  <text x="46" y="463" fill="#8778a6" font-size="19" font-family="ui-monospace,SFMono-Regular,Menlo,monospace">tip: 保留署名，非商业分享；给别的机器也带一点月光。</text>
+</svg>
