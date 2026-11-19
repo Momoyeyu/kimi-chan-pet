@@ -16,7 +16,7 @@ DEFAULT_WIDGETS_ROOT = Path.home() / (
     "agents/main/blueprint/widgets"
 )
 NEEDLE = "    function tick(now) {\n      animationFrameRequest = 0;"
-SNIPPET = """    function playFluteOnClick(event) {
+LEGACY_SNIPPET = """    function playFluteOnClick(event) {
       if (!manifest || isThreeManifest(manifest) || !manifest.states.flute_playing) return;
       if (reducedMotion.matches || event.detail.button !== 0 || stateName === 'flute_playing') return;
       const stageBounds = stage.getBoundingClientRect();
@@ -36,6 +36,50 @@ SNIPPET = """    function playFluteOnClick(event) {
     }
 
     stage.addEventListener(CLICK_MESSAGE_TYPE, playFluteOnClick);"""
+
+SNIPPET = LEGACY_SNIPPET + """
+    // Fallback for Kimi Work hosts that forward real DOM pointer events into
+    // the pet iframe instead of posting daimon-pet:click messages: drive the
+    // same action from DOM clicks. Once the pointer travels 6px, it is a drag
+    // even if it returns to the starting point before release.
+    let fluteDomDownPos = null;
+    function movedFlutePointer(event, start) {
+      return Math.hypot(event.screenX - start.x, event.screenY - start.y) >= 6;
+    }
+    document.addEventListener('pointerdown', (event) => {
+      if (event.button !== 0 || !event.isPrimary) return;
+      fluteDomDownPos = {
+        id: event.pointerId, x: event.screenX, y: event.screenY, dragged: false
+      };
+    }, true);
+    document.addEventListener('pointermove', (event) => {
+      if (fluteDomDownPos?.id === event.pointerId && movedFlutePointer(event, fluteDomDownPos)) {
+        fluteDomDownPos.dragged = true;
+      }
+    }, true);
+    document.addEventListener('pointercancel', (event) => {
+      if (fluteDomDownPos?.id === event.pointerId) fluteDomDownPos = null;
+    }, true);
+    document.addEventListener('click', (event) => {
+      if (event.button !== 0) return;
+      const downPos = fluteDomDownPos;
+      fluteDomDownPos = null;
+      if (!manifest || isThreeManifest(manifest) || !manifest.states.flute_playing) return;
+      if (reducedMotion.matches || stateName === 'flute_playing') return;
+      if (downPos && (downPos.dragged || movedFlutePointer(event, downPos))) return;
+      if (event.target !== stage && event.target !== pet && event.target !== document.body) return;
+      const petBounds = pet.getBoundingClientRect();
+      if (
+        event.clientX < petBounds.left ||
+        event.clientX > petBounds.right ||
+        event.clientY < petBounds.top ||
+        event.clientY > petBounds.bottom
+      ) return;
+      clearIdleVariantTimer();
+      interactionStateActive = true;
+      setState('flute_playing');
+      restartAnimationSchedule();
+    }, true);"""
 
 
 def find_installed_runtime(widgets_root: Path) -> tuple[Path, dict]:
@@ -66,19 +110,25 @@ def find_installed_runtime(widgets_root: Path) -> tuple[Path, dict]:
 
 def enable_click(widgets_root: Path) -> str:
     runtime, _manifest = find_installed_runtime(widgets_root)
-    source = runtime.read_text(encoding="utf-8")
-    if MARKER in source:
+    original = runtime.read_bytes()
+    source = original.decode("utf-8")
+    newline = "\r\n" if "\r\n" in source else "\n"
+    source = source.replace(newline, "\n")
+    if SNIPPET in source:
         return f"Already enabled; no changes made: {runtime}"
-    if source.count(NEEDLE) != 1:
+    legacy_block = LEGACY_SNIPPET + "\n\n" + NEEDLE
+    anchor = legacy_block if MARKER in source else NEEDLE
+    if source.count(anchor) != 1:
         raise RuntimeError(
             "The installed Pet runtime has an unsupported layout. No changes were made. "
             "Please ask Kimi Work to add the flute click listener manually."
         )
-    updated = source.replace(NEEDLE, SNIPPET + "\n\n" + NEEDLE, 1)
-    timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
+    updated = source.replace(anchor, SNIPPET + "\n\n" + NEEDLE, 1)
+    timestamp = datetime.now().strftime("%Y%m%d-%H%M%S-%f")
     backup = runtime.with_name(f"index.html.backup-{timestamp}")
-    backup.write_text(source, encoding="utf-8")
-    runtime.write_text(updated, encoding="utf-8")
+    with backup.open("xb") as file:
+        file.write(original)
+    runtime.write_bytes(updated.replace("\n", newline).encode("utf-8"))
     return (
         f"Enabled flute click: {runtime}\n"
         f"Backup saved: {backup}\n"
