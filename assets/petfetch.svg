@@ -14,9 +14,29 @@
     <text x="114" y="166" fill="#8fa9e8" font-size="23">✦</text>
     <text x="338" y="214" fill="#8778a6" font-size="17">·</text>
     <text x="220" y="367" fill="#7fa9ff" font-size="220">●</text>
-    <g fill="#29314c" font-size="27" font-weight="700">
+    <style>
+      .pet-eyes-open { opacity: 1; animation: pet-open 5.2s step-end infinite; }
+      .pet-eyes-closed { opacity: 0; animation: pet-shut 5.2s step-end infinite; }
+      @keyframes pet-open {
+        0%, 90%, 96%, 100% { opacity: 1; }
+        92%, 94% { opacity: 0; }
+      }
+      @keyframes pet-shut {
+        0%, 90%, 96%, 100% { opacity: 0; }
+        92%, 94% { opacity: 1; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .pet-eyes-open { animation: none; opacity: 1; }
+        .pet-eyes-closed { display: none; }
+      }
+    </style>
+    <g class="pet-eyes-open" fill="#29314c" font-size="27" font-weight="700">
       <text x="200" y="285">▪</text>
       <text x="240" y="285">▪</text>
+    </g>
+    <g class="pet-eyes-closed" fill="#29314c" font-size="27" font-weight="700">
+      <text x="200" y="285">─</text>
+      <text x="240" y="285">─</text>
     </g>
     <text x="220" y="405" fill="#c4b0ec" font-size="29" font-weight="700">K</text>
   </g>
