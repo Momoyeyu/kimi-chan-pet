@@ -6,7 +6,7 @@
 </picture>
 
 <p>
-  <a href="https://github.com/Momoyeyu/kimi-chan-pet/releases"><img alt="release" src="https://img.shields.io/badge/release-v1.0.0-9b8ac4?style=for-the-badge"></a>
+  <a href="https://github.com/Momoyeyu/kimi-chan-pet/releases/tag/v1.1.0"><img alt="release" src="https://img.shields.io/badge/release-v1.1.0-9b8ac4?style=for-the-badge"></a>
   <a href="LICENSE"><img alt="art license CC BY-NC 4.0" src="https://img.shields.io/badge/art-CC%20BY--NC%204.0-d58aae?style=for-the-badge"></a>
   <a href="LICENSE-CODE"><img alt="code license MIT" src="https://img.shields.io/badge/code-MIT-8296c9?style=for-the-badge"></a>
   <img alt="platform Kimi Work" src="https://img.shields.io/badge/for-Kimi%20Work-a895cf?style=for-the-badge">
@@ -55,10 +55,10 @@
 
 ### 1. 下载安装包
 
-前往 [**Releases**](https://github.com/Momoyeyu/kimi-chan-pet/releases)，下载并解压：
+前往 [**Releases**](https://github.com/Momoyeyu/kimi-chan-pet/releases/tag/v1.1.0)，下载并解压：
 
 ```text
-kimi-chan-pet-v1.0.0.zip
+kimi-chan-pet-v1.1.0.zip
 ```
 
 也可以直接克隆仓库：
